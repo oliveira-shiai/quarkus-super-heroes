@@ -1,0 +1,10 @@
+schemaVersion: 2.2.0
+metadata:
+  name: quarkus
+components:
+  - name: quarkus
+    container:
+      image: quay.io/juliaaano/universal-developer-image:ubi8-latest
+      memoryLimit: 2Gi
+      memoryRequest: 2Gi
+
