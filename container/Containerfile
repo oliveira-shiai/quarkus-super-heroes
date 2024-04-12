@@ -1,0 +1,18 @@
+FROM quay.io/devfile/universal-developer-image:ubi8-latest
+
+RUN git config --global user.email "lab-user@opentlc.com" && \
+    git config --global user.name "Lab User"
+
+RUN git clone https://github.com/redhat-gpte-devopsautomation/quarkus-super-heroes-rhbq32.git quarkus-super-heroes && \
+    mvn --file quarkus-super-heroes/event-statistics/pom.xml clean install -DskipTests && \
+    mvn --file quarkus-super-heroes/rest-fights/pom.xml clean install -DskipTests && \
+    mvn --file quarkus-super-heroes/rest-heroes/pom.xml clean install -DskipTests && \
+    mvn --file quarkus-super-heroes/rest-villains/pom.xml clean install -DskipTests && \
+    rm -rf quarkus-super-heroes
+
+USER 0
+
+# Set permissions to allow arbitrary users to write
+RUN chgrp -R 0 /home/user/.m2 /home/user/.config/jgit && chmod -R g=u /home/user/.m2 /home/user/.config/jgit
+
+USER 10001
